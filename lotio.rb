@@ -17,7 +17,16 @@ class Lotio < Formula
   depends_on "harfbuzz"
 
   def install
-    # Build Skia first
+    # Fetch Skia first (not included in source archive)
+    mkdir_p "third_party/skia"
+    cd "third_party/skia" do
+      system "git", "clone", "--depth", "1", "https://skia.googlesource.com/skia.git"
+      cd "skia" do
+        system "python3", "tools/git-sync-deps"
+      end
+    end
+    
+    # Build Skia
     cd "third_party/skia/skia" do
       system "python3", "bin/fetch-gn"
       
