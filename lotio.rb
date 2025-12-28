@@ -2,7 +2,7 @@ class Lotio < Formula
   desc "High-performance Lottie animation frame renderer using Skia"
   homepage "https://github.com/matrunchyk/lotio"  # Update with your actual repo URL
   url "https://github.com/matrunchyk/lotio/archive/refs/tags/v20251228-9496855.tar.gz"
-  sha256 "7d1196457dccc2efccb904cb577c31a1ed876ce9a6bab86d175c1466b9fcbd9c"
+  sha256 "PLACEHOLDER"  # Will be updated by workflow
   license "MIT"  # Update with your license
 
   depends_on "cmake" => :build
