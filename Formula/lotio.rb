@@ -28,7 +28,9 @@ class Lotio < Formula
         # Use custom sync script instead of broken tools/git-sync-deps
         # Parse DEPS file and clone externals with retry logic
         system "bash", "-c", <<~EOS
-          mkdir -p third_party/externals
+          # Get absolute path to skia directory
+          SKIA_ROOT="$(pwd)"
+          mkdir -p "$SKIA_ROOT/third_party/externals"
           grep '\"third_party/externals/' DEPS | while IFS= read -r line; do
             name=\$(echo "\$line" | sed -n 's/.*"third_party\\/externals\\/\\([^"]*\\)".*/\\1/p')
             url_commit=\$(echo "\$line" | sed -n 's/.*: "\\([^"]*\\)".*/\\1/p')
@@ -37,12 +39,12 @@ class Lotio < Formula
             fi
             url=\$(echo "\$url_commit" | sed 's/@.*//')
             commit=\$(echo "\$url_commit" | sed 's/.*@//')
-            if [ -d "third_party/externals/\$name" ]; then
+            if [ -d "$SKIA_ROOT/third_party/externals/\$name" ]; then
               echo "  ✓ \$name already exists, skipping"
               continue
             fi
             echo "  Cloning \$name..."
-            cd third_party/externals
+            cd "$SKIA_ROOT/third_party/externals"
             success=false
             for attempt in 1 2 3; do
               if git clone "\$url" "\$name" 2>&1; then
@@ -58,12 +60,11 @@ class Lotio < Formula
             if [ "\$success" = true ] && [ -d "\$name" ]; then
               cd "\$name"
               git checkout "\$commit" 2>&1 || echo "    Warning: Failed to checkout \$commit"
-              cd ..
             else
               echo "  ✗ Failed to clone \$name after 3 attempts"
               exit 1
             fi
-            cd ../..
+            cd "$SKIA_ROOT"
           done
         EOS
       end
