@@ -82,6 +82,10 @@ class Lotio < Formula
     end
 
     # Build lotio (we're back in the source root after the cd blocks)
+    # Set environment variables for Homebrew library paths
+    icu_prefix = Formula["icu4c"].opt_prefix
+    ENV["HOMEBREW_PREFIX"] = HOMEBREW_PREFIX.to_s
+    ENV["ICU_PREFIX"] = icu_prefix.to_s
     system "./build_local.sh"
     
     # Install binary
