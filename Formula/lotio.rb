@@ -7,9 +7,14 @@ class Lotio < Formula
   sha256 "1a096ffc65a9c416597c74901cb6c68a2c139e6b3df469a99beded5d04542ca2"  # Auto-updated in tap
   version "1.1.0"
   license "MIT"
-  depends_on "ninja" => :build
-  depends_on "python@3.11" => :build
-  depends_on "git" => :build
+  
+  # Bottle (pre-built binary) - much faster than building from source
+  bottle do
+    root_url "https://github.com/matrunchyk/lotio/releases/download/v1.1.0"
+    sha256 arm64_big_sur: "0000000000000000000000000000000000000000000000000000000000000000"  # Auto-updated
+  end
+  
+  # Only build dependencies needed if bottle is not available
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "icu4c"
@@ -19,6 +24,9 @@ class Lotio < Formula
   depends_on "harfbuzz"
 
   def install
+    # If bottle is available, Homebrew will use it automatically
+    # This install method is only used as fallback when bottle is not available
+    
     # Fetch Skia first (not included in source archive)
     mkdir_p "third_party/skia"
     cd "third_party/skia" do
@@ -159,4 +167,3 @@ class Lotio < Formula
     system "#{bin}/lotio", "--help"
   end
 end
-
