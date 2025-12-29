@@ -62,15 +62,19 @@ class Lotio < Formula
         "skia_enable_pdf=false"
       ]
       
-      # Add Homebrew include paths for macOS
+      # Add Homebrew include and library paths for macOS
       if OS.mac?
         homebrew_prefix = HOMEBREW_PREFIX
         freetype_include = "#{Formula["freetype"].opt_include}/freetype2"
         icu_include = "#{Formula["icu4c"].opt_include}"
+        icu_lib = "#{Formula["icu4c"].opt_lib}"
         harfbuzz_include = "#{Formula["harfbuzz"].opt_include}/harfbuzz"
+        harfbuzz_lib = "#{Formula["harfbuzz"].opt_lib}"
+        freetype_lib = "#{Formula["freetype"].opt_lib}"
         
         gn_args << "extra_cflags=[\"-O3\", \"-march=native\", \"-I#{homebrew_prefix}/include\", \"-I#{freetype_include}\", \"-I#{icu_include}\", \"-I#{harfbuzz_include}\"]"
         gn_args << "extra_asmflags=[\"-I#{homebrew_prefix}/include\", \"-I#{freetype_include}\", \"-I#{icu_include}\", \"-I#{harfbuzz_include}\"]"
+        gn_args << "extra_ldflags=[\"-L#{icu_lib}\", \"-L#{harfbuzz_lib}\", \"-L#{freetype_lib}\", \"-L#{homebrew_prefix}/lib\"]"
       end
       
       system "bin/gn", "gen", "out/Release", "--args=#{gn_args.join(' ')}"
