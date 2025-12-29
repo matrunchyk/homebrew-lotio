@@ -24,7 +24,19 @@ class Lotio < Formula
     cd "third_party/skia" do
       system "git", "clone", "--depth", "1", "https://skia.googlesource.com/skia.git"
       cd "skia" do
-        system "python3", "tools/git-sync-deps"
+        # Retry git-sync-deps as it can fail due to network issues
+        retries = 3
+        begin
+          system "python3", "tools/git-sync-deps"
+        rescue
+          retries -= 1
+          if retries > 0
+            sleep 2
+            retry
+          else
+            raise
+          end
+        end
       end
     end
     
