@@ -22,6 +22,7 @@ class Lotio < Formula
     # Fetch Skia first (not included in source archive)
     mkdir_p "third_party/skia"
     cd "third_party/skia" do
+      system "git", "config", "--global", "advice.detachedHead", "false"
       system "git", "clone", "--depth", "1", "https://skia.googlesource.com/skia.git"
       cd "skia" do
         # Use custom sync script instead of broken tools/git-sync-deps
