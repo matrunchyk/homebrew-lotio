@@ -33,8 +33,10 @@ class Lotio < Formula
       system "python3", "bin/fetch-gn"
       
       # Configure GN args for macOS
+      # Hardware::CPU.arch returns "arm64" or "x86_64"
+      target_cpu = Hardware::CPU.arch == "arm64" ? "arm64" : "x64"
       gn_args = [
-        "target_cpu=\"#{Hardware::CPU.arch == "arm64" ? "arm64" : "x64"}\"",
+        "target_cpu=\"#{target_cpu}\"",
         "is_official_build=true",
         "is_debug=false",
         "skia_enable_skottie=true",
@@ -67,7 +69,7 @@ class Lotio < Formula
       system "ninja", "-C", "out/Release"
     end
 
-    # Build lotio
+    # Build lotio (we're back in the source root after the cd blocks)
     system "./build_local.sh"
     
     # Install binary
