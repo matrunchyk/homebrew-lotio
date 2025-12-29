@@ -33,8 +33,8 @@ class Lotio < Formula
       system "python3", "bin/fetch-gn"
       
       # Configure GN args for macOS
-      # Hardware::CPU.arch returns "arm64" or "x86_64"
-      target_cpu = Hardware::CPU.arch == "arm64" ? "arm64" : "x64"
+      # Use Hardware::CPU.arm? for reliable ARM detection
+      target_cpu = Hardware::CPU.arm? ? "arm64" : "x64"
       gn_args = [
         "target_cpu=\"#{target_cpu}\"",
         "is_official_build=true",
