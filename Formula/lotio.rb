@@ -1,17 +1,17 @@
 class Lotio < Formula
   desc "High-performance Lottie animation frame renderer using Skia"
   homepage "https://github.com/matrunchyk/lotio"
-  url "https://github.com/matrunchyk/lotio/archive/refs/tags/v20260101-48fa84c.tar.gz"
+  url "https://github.com/matrunchyk/lotio/archive/refs/tags/v20260102-a53932a.tar.gz"
   # Note: SHA256 is automatically calculated and updated by dawidd6/action-homebrew-bump-formula
   # in the Homebrew tap repository (matrunchyk/homebrew-lotio). This file is just a template.
-  sha256 "bcd0325899b581e47ff76d5f49cc5cb099704c31a7fb0c2f36ce451cf18f23cf"  # Auto-updated in tap
-  version "20260101-48fa84c"
+  sha256 "a62dccd6a0a520ecc799f327196ba928bae4359eaa89fb7c9156d2b732e17b09"  # Auto-updated in tap
+  version "20260102-a53932a"
   license "MIT"
   
   # Bottle (pre-built binary) - much faster than building from source
   bottle do
-    root_url "https://github.com/matrunchyk/lotio/releases/download/v20260101-48fa84c"
-    sha256 arm64_big_sur: "070a7e1564c666fc2a12b97f7336390a0025986edb91b8be50f05b9d41749c35"  # Auto-updated
+    root_url "https://github.com/matrunchyk/lotio/releases/download/v20260102-a53932a"
+    sha256 arm64_big_sur: "b7a0448fbb2f1714dc8ae97990c752fe326d66a6676aa905e19b598e2ffc4a43"  # Auto-updated
   end
   
   # Only build dependencies needed if bottle is not available
