@@ -19,8 +19,6 @@ class Lotio < Formula
   depends_on "freetype"
   depends_on "icu4c"
   depends_on "libpng"
-  depends_on "jpeg-turbo"
-  depends_on "webp"
   depends_on "harfbuzz"
 
   def install
@@ -95,8 +93,8 @@ class Lotio < Formula
         "skia_use_freetype=true",
         "skia_use_libpng_encode=true",
         "skia_use_libpng_decode=true",
-        "skia_use_libwebp_decode=true",
-        "skia_use_wuffs=true",
+        "skia_use_libwebp_decode=false",
+        "skia_use_wuffs=false",
         "skia_enable_pdf=false"
       ]
       
