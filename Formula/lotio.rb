@@ -1,5 +1,5 @@
 class Lotio < Formula
-  desc "High-performance Lottie animation frame renderer using Skia"
+  desc "High-performance Lottie animation frame renderer using Skia. Renders animations to PNG frames for video encoding."
   homepage "https://github.com/matrunchyk/lotio"
   url "https://github.com/matrunchyk/lotio/archive/refs/tags/v1.1.15.tar.gz"
   # Note: SHA256 is automatically calculated and updated by dawidd6/action-homebrew-bump-formula
@@ -8,22 +8,24 @@ class Lotio < Formula
   version "1.1.15"
   license "MIT"
   
-  # Bottle (pre-built binary) - much faster than building from source
+  livecheck do
+    url :stable
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+    strategy :github_latest
+  end
+  
   bottle do
     root_url "https://github.com/matrunchyk/lotio/releases/download/v1.1.15"
     sha256 arm64_big_sur: "700354c109ccb7b949c5968d90ccc83d31ee6fa20b0dd629f5c253e7e0bd5465"  # Auto-updated
   end
   
-  # Runtime dependencies (bottles are always provided, so build deps not needed)
-  # These are listed for documentation purposes
   depends_on "fontconfig"
   depends_on "freetype"
+  depends_on "harfbuzz"
   depends_on "icu4c"
   depends_on "libpng"
-  depends_on "harfbuzz"
 
   def install
-    # Bottles are always provided for releases, so this method should rarely be called.
     # If you need to build from source, use the build scripts from the repository:
     # https://github.com/matrunchyk/lotio/blob/main/scripts/build_binary.sh
     
@@ -38,8 +40,41 @@ class Lotio < Formula
     EOS
   end
 
+  def caveats
+    <<~EOS
+      This formula installs:
+      - Binary: #{bin}/lotio
+      - Headers: #{include}/lotio/ and #{include}/skia/
+      - Libraries: #{lib}/liblotio.a and Skia static libraries
+      - pkg-config: #{lib}/pkgconfig/lotio.pc
+
+      To use in C++ projects:
+        #include <lotio/core/animation_setup.h>
+        #include <skia/core/SkCanvas.h>
+        
+        Compile with:
+        g++ -I#{include} -L#{lib} -llotio -lskottie -lskia ...
+        
+        Or use pkg-config:
+        g++ $(pkg-config --cflags --libs lotio) ...
+    EOS
+  end
+
   test do
-    # Test that the binary works
-    system "#{bin}/lotio", "--help"
+    # Test binary
+    system "#{bin}/lotio", "--version"
+    
+    # Test that headers are installed
+    assert_predicate include/"lotio/core/animation_setup.h", :exist?
+    assert_predicate include/"lotio/text/text_processor.h", :exist?
+    assert_predicate include/"skia/core/SkCanvas.h", :exist?
+    
+    # Test that libraries are installed
+    assert_predicate lib/"liblotio.a", :exist?
+    assert_predicate lib/"libskottie.a", :exist?
+    
+    # Test pkg-config
+    system "pkg-config", "--exists", "lotio"
+    assert_equal shell_output("pkg-config --modversion lotio").strip, version.to_s
   end
 end
