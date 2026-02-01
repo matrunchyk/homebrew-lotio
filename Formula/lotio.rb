@@ -1,11 +1,11 @@
 class Lotio < Formula
   desc "High-performance Lottie animation frame renderer using Skia. Renders animations to PNG frames for video encoding."
   homepage "https://github.com/matrunchyk/lotio"
-  url "https://github.com/matrunchyk/lotio/archive/refs/tags/v1.1.83.tar.gz"
+  url "https://github.com/matrunchyk/lotio/archive/refs/tags/v1.1.84.tar.gz"
   # Note: SHA256 is automatically calculated and updated by dawidd6/action-homebrew-bump-formula
   # in the Homebrew tap repository (matrunchyk/homebrew-lotio). This file is just a template.
-  sha256 "7d1325e8a60a124642122c602bc48b22f0caace77fb0edd4c49ad904850a27dd"  # Auto-updated in tap
-  version "1.1.83"
+  sha256 "105ee88e1e8fc025b7a49043da52be4c17734b70d6acaf17085ebb907f4d84a7"  # Auto-updated in tap
+  version "1.1.84"
   license "MIT"
   
   livecheck do
@@ -15,8 +15,8 @@ class Lotio < Formula
   end
   
   bottle do
-    root_url "https://github.com/matrunchyk/lotio/releases/download/v1.1.83"
-    sha256 arm64_big_sur: "58ba92f7c165b09efb8eec355e3cf35e1406bf02286ea0737ca6b0403268589f"  # Auto-updated
+    root_url "https://github.com/matrunchyk/lotio/releases/download/v1.1.84"
+    sha256 arm64_big_sur: "5de141469c9f709ac2e92dec649f242e03bbec5833f058b16071a5bb64cb60a1"  # Auto-updated
   end
   
   depends_on "fontconfig"
